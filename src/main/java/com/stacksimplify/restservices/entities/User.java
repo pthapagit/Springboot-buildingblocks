@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
-	@GeneratedValue // auto generation
+	//@GeneratedValue // auto generation
 	private Long id;
 
 	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
