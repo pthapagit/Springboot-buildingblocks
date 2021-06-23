@@ -6,6 +6,10 @@ public class UserNotFoundException extends Exception {
 
 	public UserNotFoundException(String message) {
 		super(message);
+<<<<<<< HEAD
+=======
+		
+>>>>>>> refs/heads/master
 	}
 
 }
