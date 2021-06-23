@@ -15,7 +15,7 @@ public class User {
 	@GeneratedValue // auto generation
 	private Long id;
 
-	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
+	@Column(name = "USERNAME", length = 50, nullable = false, unique = true)
 	private String username;
 
 	@Column(name = "First_NAME", length = 50, nullable = false)
@@ -24,7 +24,7 @@ public class User {
 	@Column(name = "LAST_NAME", length = 50, nullable = false)
 	private String lastname;
 
-	@Column(name = "EMAIL_ADDRESS", length = 50, nullable = false)
+	@Column(name = "EMAIL", length = 50, nullable = false)
 	private String email;
 
 	@Column(name = "ROLE", length = 50, nullable = false)
