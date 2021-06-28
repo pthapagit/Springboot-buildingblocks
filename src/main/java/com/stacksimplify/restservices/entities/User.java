@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 //entity
 @Entity
@@ -15,22 +17,24 @@ public class User {
 	//@GeneratedValue // auto generation
 	private Long id;
 
-	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
+	@NotEmpty(message="Username is Mandatroy. Please provide username")
+	@Column(name = "username", length = 50, nullable = false, unique = true)
 	private String username;
 
-	@Column(name = "First_NAME", length = 50, nullable = false)
+	@Size(min=2, message="First name should be atleast 2 characters")
+	@Column(name = "first_name", length = 50, nullable = false)
 	private String firstname;
 
-	@Column(name = "LAST_NAME", length = 50, nullable = false)
+	@Column(name = "last_name", length = 50, nullable = false)
 	private String lastname;
 
-	@Column(name = "EMAIL_ADDRESS", length = 50, nullable = false)
+	@Column(name = "email", length = 50, nullable = false)
 	private String email;
 
-	@Column(name = "ROLE", length = 50, nullable = false)
+	@Column(name = "role", length = 50, nullable = false)
 	private String role;
 
-	@Column(name = "SSN", length = 50, nullable = false, unique = true)
+	@Column(name = "ssn", length = 50, nullable = false, unique = true)
 	private String ssn;
 
 	// No Argument Constructors

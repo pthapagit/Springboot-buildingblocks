@@ -3,10 +3,14 @@ package com.stacksimplify.restservices.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,18 +18,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
 import com.stacksimplify.restservices.entities.User;
 import com.stacksimplify.restservices.exception.UserExistException;
+import com.stacksimplify.restservices.exception.UserNameNotFoundException;
 import com.stacksimplify.restservices.exception.UserNotFoundException;
 import com.stacksimplify.restservices.services.UserService;
 
 //controller
 @RestController
+@Validated
 public class UserController {
 	
 	//Autowire the service
@@ -39,7 +43,7 @@ public class UserController {
 	}
 	//create user\
 	@PostMapping ("/users")
-	public ResponseEntity<Void> creatUser(@RequestBody User user, UriComponentsBuilder builder) {
+	public ResponseEntity<Void> creatUser(@Valid @RequestBody User user, UriComponentsBuilder builder) {
 		
 		try {
 			userService.createUser(user);
@@ -54,7 +58,7 @@ public class UserController {
 	}
 	
 	@GetMapping ("/users/{id}")
-	public Optional<User> getUserById(@PathVariable Long id) {
+	public Optional<User> getUserById(@PathVariable("id") @Min(1) Long id ) {
 		try {
 			return userService.getUserById(id);
 		} catch (UserNotFoundException ex) {
@@ -80,8 +84,12 @@ public class UserController {
 	
 	//find iser by Username
 	@GetMapping("/users/byusername/{username}")
-	public User findUserByUsername(@PathVariable String username) {
-		return userService.getUserByUsername(username);
+	public User findUserByUsername(@PathVariable String username) throws UserNameNotFoundException {
+		User user = userService.getUserByUsername(username);
+		if(user == null) {
+			throw new UserNameNotFoundException("username='"+ username + "'not found in repository");
+		}
+		return user;
 	}
 }
 
